@@ -2,7 +2,8 @@
 
 Запускать как обычный Python скрипт
 
-написать
+написать:
+
 pip install bs4
 
 pip install requests
