@@ -1,3 +1,6 @@
+# Created by Duxk
+# time 21.30
+# date 13.11.20
 from bs4 import BeautifulSoup
 import requests
 import re
