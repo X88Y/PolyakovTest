@@ -1,24 +1,27 @@
 # Created by Duxk
-# time 21.30
-# date 13.11.20
+# time 18.17
+# date 27.02.21
 from bs4 import BeautifulSoup
 import requests
-import re
 
-patern = r"name=\"a\d+\" type=\"\w+\" value=..."
-url = input('Owned by Duxk: ')
+url = input('kpolyakov Owned by Duxk: ')
 
 source_code = requests.get(url)
-html = BeautifulSoup(source_code.text, 'html.parser')
-question = html.find_all('div', {"class": "label"})
-question = str(question).split('</div>, <div class=\"label\">')
+source_code.encoding = 'utf-8'
 
-for i in range(len(question)):
-    tasks = str(html).split('<div class=\"q\" id="')
-    temp = tasks[i + 1]
-    TempAnswer = re.findall(patern, temp)
-    if len(TempAnswer) > 1:
-        LastTemp = ((str(TempAnswer).split('name="')[1].split('"')[0])[1:])
-        print('Задание ' + LastTemp)
-        for answer in TempAnswer:
-            print(answer[-2].replace('1', '+').replace('0', '-'))
+html = BeautifulSoup(source_code.text, 'html.parser')
+questions = html.find_all('div', {"class": "q"})
+
+for i in questions:
+    question = i.find('div', {"class": "label"}).string
+    answers = i.find_all('tr')
+    print(question)
+
+    for i in answers:
+        try: # string input protection
+            is_right = i.find('input')['value']
+            if is_right != '0':
+                print(i.find('td', {'class': 'ans'}).string)
+        except:
+            pass
+    print()
